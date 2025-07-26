@@ -18,7 +18,10 @@
     <quarkus-plugin.version>${quarkus.platform.version}</quarkus-plugin.version>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
+<<<<<<< HEAD
     <java.version>11</java.version>
+=======
+>>>>>>> d190f044ff7092391adac83ef8ec254e8d5973d9
     <version.drools>7.73.0.Final</version.drools>
   </properties>
   <dependencyManagement>

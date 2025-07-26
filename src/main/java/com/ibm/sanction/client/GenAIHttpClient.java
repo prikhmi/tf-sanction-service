@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -12,6 +13,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +25,17 @@ import com.ibm.sanction.dto.PromptResponse;
 public class GenAIHttpClient {
 
     private static final Logger log = LoggerFactory.getLogger(GenAIHttpClient.class);
+    @Inject
+    @ConfigProperty(name = "quarkus.rest-client.genai-client.url")
+    String genaiUrl;
+
+    @Inject
+    @ConfigProperty(name = "quarkus.rest-client.genai-client.basic-auth.username")
+    String username;
+
+    @Inject
+    @ConfigProperty(name = "quarkus.rest-client.genai-client.basic-auth.password")
+    String password;
 
     private static final String GENAI_URL = "http://9e6f129b-us-east.lb.appdomain.cloud/call_llm";
     private static final String USERNAME = "genai_user002";
@@ -43,8 +56,8 @@ public class GenAIHttpClient {
 
             // Convert and log the request
             String jsonBody = mapper.writeValueAsString(request);
-            log.info("Sending PromptRequest to GenAI:\n{}", 
-                     mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request));
+            log.info("Sending PromptRequest to GenAI:\n{}",
+                    mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request));
 
             post.setEntity(new StringEntity(jsonBody, StandardCharsets.UTF_8));
 
